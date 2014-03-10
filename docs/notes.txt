@@ -1,0 +1,15 @@
+h1 Log in
+form(method="POST", action="/login")
+	p
+		label(for="username") User name:<br />
+		input#username(name="username")
+	p
+		label(for="password") Password:<br />
+		input#password(type="password", name="password")
+	p
+		input(type="submit", value="Log in")
+		
+		
+		,required
+label.checkbox
+					input(type="checkbox",value="remember-me",name="xxx") Remember me

@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+	h4 place: #{title}
+	hr
+	p
+		a(href="/blog/new") Create new profile
+		
+	- each blog in blogs
+		h2 #{blog.title}
+		p #{blog.publish_date}
+		p #{blog.content} 
+			a(href="/blog/"+ encodeURIComponent(blog._id)) View details &raquo;
+		p 
+			a(href="/blog/edit/"+ encodeURIComponent(blog._id)) Edit
+		hr

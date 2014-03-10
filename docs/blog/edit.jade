@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+	h1 title
+	form(action="/blog/" + encodeURIComponent(blog._id), method="PUT")
+		p
+			label(for="title") Title<br />
+			input#title(name="title", value="#{blog.title}")
+		p
+			label(for="publish_date") Publish Date<br />
+			input#publish(name="publish_date", value="#{blog.publish_date}")
+		p
+			label(for="content") Content<br />
+			textarea#content(name="content", cols="40", rows="5", value="#{blog.content}")
+		p
+			input(type="submit", value="Save")

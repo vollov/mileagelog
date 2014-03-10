@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+	h1 title
+	form(method="POST", action="/user")
+		p
+			label(for="firstname") First Name<br />
+			input#firstname(name="firstname")
+		p
+			label(for="lastname") Last Name<br />
+			input#lastname(name="lastname")
+		p
+			label(for="email") Email<br />
+			input#email(name="email")
+		p
+			label(for="password") password<br />
+			input#password(name="password")
+		p
+			label(for="age") Age<br />
+			input#age(name="age")
+		p
+			input(type="submit", value="Create")

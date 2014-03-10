@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible",content="IE=edge")
+		meta(name="viewport",content="width=device-width, initial-scale=1")
+		meta(name="description",content="IT notes")
+		meta(name="vollov.ca@gmail.com" content="")
+		title= title
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/signin.css')
+		
+	body
+		div.container
+			form.form-signin(role="form",name="yyy")
+				h2.form-signin-heading Please sign in
+				input.form-control(type="email",placeholder="Email address",name="username")
+				input.form-control(type="password",placeholder="Password",name="password")
+				
+				button.btn.btn-lg.btn-primary.btn-block(type="submit") Sign in

@@ -1,4 +1,6 @@
 lib-cov
+.settings/
+*.project
 *.seed
 *.log
 *.csv
