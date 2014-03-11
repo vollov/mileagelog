@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"start": "supervisor mileage.server.js",
+		"start": "supervisor mileage.server.3002.js",
 		"test": "mocha --ui bdd -R spec test/**/*.test.js"
 	},
 	"dependencies": {
