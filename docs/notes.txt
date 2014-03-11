@@ -13,3 +13,5 @@ form(method="POST", action="/login")
 		,required
 label.checkbox
 					input(type="checkbox",value="remember-me",name="xxx") Remember me
+					
+					

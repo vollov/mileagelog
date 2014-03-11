@@ -61,7 +61,7 @@ if ('development' == app.get('env')) {
 //});
 
 require('./routes/index')(app);
-//require('./routes/user')(app);
+require('./routes/user')(app);
 //require('./routes/blog')(app);
 require('./routes/auth')(app);
 

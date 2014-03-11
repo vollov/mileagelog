@@ -10,7 +10,7 @@ var db = require('../lib/db.js')
 module.exports = function(app) {
 	
 	app.get('/user/new', function(req, res) {
-		res.render('user/new', {title: "New User"});
+		res.render('user/new', {title: "Registeration"});
 	});
 	
 	app.get('/user/:id', midware.authentication, function(req, res) {
@@ -67,7 +67,7 @@ module.exports = function(app) {
 		req.body.password = security.hash(req.body.password);
 		console.log('saving user=' + req.body);
 		db.save('user', req.body)
-		res.redirect('/user');
+		res.redirect('/settings');
 	});
 	
 	/**
