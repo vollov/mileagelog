@@ -14,4 +14,30 @@ form(method="POST", action="/login")
 label.checkbox
 					input(type="checkbox",value="remember-me",name="xxx") Remember me
 					
-					
+									button.btn.btn-lg.btn-primary.btn-block(type="submit",name="lincon") Lincon
+				button.btn.btn-lg.btn-primary.btn-block(type="submit",name="collrola") Collrola
+				
+			form.form
+				input.form-control.btn-primary(type="button", value="Lincon", onclick="/milages/#{vid}")
+			form.form
+				input.form-control.btn-primary(type="button", value="Collorla", onclick="/milages/#{vid}")
+
+				
+				if vehicles.length > 0
+				table.table.table-hover.table-bordered
+					thead
+						tr
+							th Mileage
+							th Edit
+							
+					each vehicle in vehicles
+						tr
+							td
+								form.form(method="GET", action="/milages/#{vehicle._id}")
+									input.form-control.btn-primary(type="button", value="#{vehicle.name}")
+							td
+								form.form(method="DELETE", action="/milages/#{vehicle._id}")
+									input.form-control.btn-primary(type="button", value="Delete")
+
+a(href='/milage/delete/#{vehicle._id}') Delete vehicle
+			

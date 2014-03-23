@@ -1,5 +1,5 @@
-var db = require('../lib/db.js')
-	, midware = require('../lib/midware.js')
+var db = require('../lib/db')
+	, midware = require('../lib/midware')
 	, security = require('../lib/security')
 	, mongojs = require('mongojs');
 
@@ -61,13 +61,25 @@ module.exports = function(app) {
 	});
 	
 	/**
-	 * Spec 1.3 add a new user with POST
+	 * Spec 2.1 add a new user with POST, create session.user
 	 */
 	app.post('/user', function(req, res){
 		req.body.password = security.hash(req.body.password);
-		console.log('saving user=' + req.body);
-		db.save('user', req.body)
-		res.redirect('/settings');
+		console.log('saving user=%j',req.body);
+		db.save('user', req.body, function(err, insertedUser){
+			if(!err) {
+				var user = {
+					'uid': insertedUser._id
+				};
+				req.session.user = user;
+				console.log('inserted user=' + insertedUser._id);
+				res.redirect('/settings/'+ insertedUser._id);
+			} else {
+				res.render('500', {
+					title : '500 Error page'
+				});
+			}
+		});
 	});
 	
 	/**

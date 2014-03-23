@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-			form.form(role="form",name="yyy")
+			form.form(role="form",name="login",method="POST", action="/login")
 				h2.form-heading Please sign in
 				input.form-control(type="email",placeholder="Email address",name="username")
 				input.form-control(type="password",placeholder="Password",name="password")

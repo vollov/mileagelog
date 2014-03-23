@@ -27,9 +27,10 @@ app.use(express.urlencoded());
 app.use(express.session({
 	secret: 'asdfds1^*4567890QWERTY',
 	// session expiration in every 15 minutes cookie: {  }
-	cookie: {maxAge: 1000 * 60 * 2, httpOnly: false},
+	cookie: {maxAge: 1000 * 60 * 5, httpOnly: false},
 	store: new MongoStore({
-		url:'localhost/blogger'
+		url:'localhost/mileage'
+		//clear_interval: 3600
 	}),
 }));
 
@@ -53,12 +54,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
-//app.all('*', midware.header);
-
-//app.options('/api/*', function(req,res){
-//	res.send(200);
-//});
 
 require('./routes/index')(app);
 require('./routes/user')(app);

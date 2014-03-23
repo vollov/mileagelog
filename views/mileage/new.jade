@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+	form.form(method="POST", action="/mileage")
+		h2.form-heading #{title}
+		input#start.form-control(name="start",placeholder="Start reading")
+		input#end.form-control(name="end",placeholder="End reading")
+		input#date.form-control(placeholder="Travel date",name="date")
+		input.form-control(placeholder="Trip Type",name="type")
+		input.form-control(placeholder="Route",name="route")
+		input.form-control(placeholder="Note",name="note")
+		button.btn.btn-lg.btn-primary.btn-block(type="submit") Save
