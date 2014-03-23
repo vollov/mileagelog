@@ -1,0 +1,12 @@
+{
+    "name": "theme",
+    "description": "Sandbox for theme",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+      "start": "supervisor theme.3000.js"
+    },
+    "dependencies": {
+        "express": "3.x"
+    }
+}

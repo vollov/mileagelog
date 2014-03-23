@@ -1,0 +1,27 @@
+[1] To import seed data into mongodb:
+$mongo localhost:27017/mileage schema.js
+
+[2] redis
+$redis-cli
+>hmset f2cb3e8d653f46008272113c6c72422843901ef3 username wendy@abc.com role 2
+
+
+redisService.exists(tokenid, function(err, reply){
+				if(reply == 1) {
+				
+				});
+				
+				
+		var milages = [{
+			'start': 1035002,
+			'end': 1035042,
+			'date': new Date('2014/3/1'),
+			'type': 'private',
+			'note': 'home to walmart'
+		},{
+			'start':1035042,,
+			'end': 1035093,
+			'date': new Date('2014/3/2'),,
+			'type': 'business',
+			'note': 'home to toronto live'
+		}];

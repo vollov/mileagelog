@@ -1,0 +1,30 @@
+<div>
+   
+	<table class="table table-condensed table-bordered table-hover">
+		<thead>
+			<tr>
+				<th> id </th>
+				<th>first name</th>
+				<th>last name</th>
+				<th>age</th>
+
+				<!--
+				<th>edit</th>
+				<th>delete</th>
+				-->
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-class-even="'even'" ng-repeat="user in users">
+				<td>{{$index + 1}}</td>
+				<td><a href="/user/{{user.id}}">{{user.firstname}}</a></td>
+				<td>{{user.lastname}}</td>
+				<td>{{user.age}}</td>
+				<!--
+				<td><a class='btn btn-primary' href="/user/{{user._id}}" ng-class='{disabled: index < 0}'>Edit</a></td>
+				<td><a class='btn btn-primary' ng-click='deleteUser(user, $index)' ng-class='{disabled: index < 0}'>Delete</a></td>
+				-->
+			<tr>
+		</tbody>
+	</table>
+</div>

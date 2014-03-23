@@ -1,0 +1,26 @@
+[1] list keys
+redis>keys *
+
+[2] select db
+By default there are 16 databases (indexed from 0 to 15) and you can navigate 
+between them using select command. Number of databases can be changed in redis 
+config file with databases setting.
+
+[3] list db
+CONFIG GET databases
+INFO keyspace
+
+[4] list key type
+type key_name
+
+[5] get string
+get  "sess:nub1S-T7MRqXSnYe6RCa88BB"
+
+[6] remove key
+FLUSHDB       - Removes data from your connection's CURRENT database.
+FLUSHALL      - Removes data from ALL databases.
+del key
+
+[6] get hash key
+hgetall KEY
+hget KEY SUBKEY

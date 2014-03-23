@@ -1,0 +1,43 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Settings</h3>
+	</div>
+	<div class="panel-body">
+
+		<ul class="nav nav-pills" ng-controller="NavCtrl">
+			<li class="active"><a href="/vehicle">Vehicle</a></li>
+			<li class="disabled"><a href="/route">Route</a></li>
+			<li class="disabled"><a href="/user/profile">Profile</a></li>
+			<li><a href="" data-ng-click="logout()">Logout</a></li>
+		</ul>
+
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Add vehicle</legend>
+				<div class="form-group">
+					<label for="inputVehicleName" class="col-lg-2 control-label">Vehicle Name</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" id="inputVehicleName"
+							placeholder="Vehicle Name(Model)" ng-model="vehicle.name" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+						<input class="btn btn-primary" ng-click="saveVehicle()" value="Save"/>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+
+		<div ng-repeat="vehicle in vehicles">
+			<p class="bs-component">
+				<button type="button" class="col-xs-7 btn btn-primary" data-ng-click="mileages(vehicle._id)">{{vehicle.name}}    <span class="badge">22</span></button>
+				<div class="col-xs-1"/>
+				<button type="button" class="col-xs-4 btn btn-default" data-ng-click="deleteVehicle(vehicle, $index)">Delete</button>
+			</p>
+		</div>
+		
+		
+	</div>
+</div>

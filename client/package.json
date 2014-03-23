@@ -1,0 +1,20 @@
+{
+    "name": "acl-demo-client",
+    "description": "ACL demo for angularjs client",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+      "start": "supervisor mileage.client.3002.js",
+      "test": "karma start config/karma.conf.js $*"
+    },
+    "dependencies": {
+        "express": "3.x"
+    },
+    "devDependencies": {
+        "karma-junit-reporter" : "*",    
+        "karma-jasmine" : "*",
+        "karma-ng-scenario" : "*",
+        "karma-coverage": "*",
+        "should": ">= 0.0.1"
+    }
+}

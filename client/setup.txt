@@ -1,0 +1,133 @@
+,
+
+      'test/unit/services/sessionServiceSpec.js',
+      'test/unit/services/routeServiceSpec.js',
+      'test/unit/services/flashServiceSpec.js',
+      'test/unit/services/authenticationServiceSpec.js',
+      'test/unit/services/paginationServiceSpec.js',
+      'test/unit/services/pageServiceSpec.js',
+      
+      'test/unit/controllers/postCodeSpec.js'
+
+		
+		
+		
+		
+		console.log('sending tid in service =' + tokenid);
+		return $resource(api_url_root + '/api/users/:id', {id: '@id', tid: tokenid}, {
+			update: {method:'PUT'},
+			save:   {method:'POST', url: api_url_root + '/public/users'},
+		});
+
+demoApp.factory('User', function($http, SessionService){
+	var tokenid = SessionService.get('tokenid');
+	return {
+//		getById: function(id){
+//			return $http.get(httpRoot + '/api/message/:id', {params: {tid: tokenid}});
+//		},
+		query: function(){
+			var tokenid = SessionService.get('tokenid');
+			return $http.get(api_url_root + '/api/users', {
+				headers: {'SessionToken': tokenid}
+			});
+		}
+//		query: function(){
+//			return $http.get(api_url_root + '/api/users', {params: 
+//			{tid: tokenid,s:200, f:'postcode', d:1}});
+//		}
+//		save: function(message){
+//			return $http.post(httpRoot + '/public/login', message).
+//			success(function(response,status){
+//				if(status == 200){
+//					console.log('message saved: %j', response);
+//				}else{
+//					console.log('save error: %j', response);
+//				}
+//			}).
+//			error(function(response,status){
+//				console.log('save error: %j', response);
+//			});
+//		}
+	}
+});
+
+//demoApp.factory('User', function($resource, SessionService) {
+//	var tokenid = SessionService.get('tokenid');
+//	return $resource(api_url_root + '/api/users/:id', {id: '@id'}, {
+//		update: {method:'PUT', headers: {'SessionToken':tokenid}},
+//		save:   {method:'POST', url: api_url_root + '/public/users'},
+////		query:  {method:'GET', url: api_url_root + '/api/users', isArray:true,  headers: {'SessionToken':tokenid}},
+//		remove: {method:'DELETE',  headers: {'SessionToken':tokenid}},
+//		delete: {method:'DELETE',  headers: {'SessionToken':tokenid}}
+//	});
+//});
+
+
+			
+			console.log('[client] AuthenticationService.logout() with tokenid=' + tokenid);
+//			var logout = $http.get(api_url_root + '/api/logout', {'headers': {'SessionToken': tokenid}});
+			var logout = $http({method: 'GET', url: api_url_root + '/api/logout', 
+				headers: {'SessionToken': tokenid}
+			});
+			logout.success(uncacheSession).error(function(data, status, headers, config){
+				console.log('[client] AuthenticationService.logout().error() data=%j', data);
+				console.log('[client] AuthenticationService.logout().error() status=%j', status);
+			});
+
+			
+			
+			First, your success() handler just returns the data, but that's not returned to the caller of getData() since it's already in a callback.  $http is an asynchronous call that returns a $promise, so you have to register a callback for when the data is available.
+
+I'd recommend looking up Promises and the $q library in AngularJS since they're the best way to pass around asynchronous calls between services.
+
+For simplicity, here's your same code re-written with a function callback provided by the calling controller:
+
+var myApp = angular.module('myApp',[]);
+
+myApp.service('dataService', function($http) {
+delete $http.defaults.headers.common['X-Requested-With'];
+this.getData = function(callbackFunc) {
+    $http({
+        method: 'GET',
+        url: 'https://www.example.com/api/v1/page',
+        params: 'limit=10, sort_by=created:desc',
+        headers: {'Authorization': 'Token token=xxxxYYYYZzzz'}
+     }).success(function(data){
+        // With the data succesfully returned, call our callback
+        callbackFunc(data);
+    }).error(function(){
+        alert("error");
+    });
+ }
+});
+
+myApp.controller('AngularJSCtrl', function($scope, dataService) {
+    $scope.data = null;
+    dataService.getData(function(dataResponse) {
+        $scope.data = dataResponse;
+    });
+});
+Now, $http actually already returns a $promise, so this can be re-written:
+
+var myApp = angular.module('myApp',[]);
+
+myApp.service('dataService', function($http) {
+delete $http.defaults.headers.common['X-Requested-With'];
+this.getData = function() {
+    // $http() returns a $promise that we can add handlers with .then()
+    return $http({
+        method: 'GET',
+        url: 'https://www.example.com/api/v1/page',
+        params: 'limit=10, sort_by=created:desc',
+        headers: {'Authorization': 'Token token=xxxxYYYYZzzz'}
+     });
+ }
+});
+
+myApp.controller('AngularJSCtrl', function($scope, dataService) {
+    $scope.data = null;
+    dataService.getData().then(function(dataResponse) {
+        $scope.data = dataResponse;
+    });
+});
+Finally, there's better ways to configure the $http service to handle the headers for you using config() to setup the $httpProvider. Checkout the $http documentation for examples.
