@@ -1,4 +1,4 @@
-#spa-acl
+#mileagelog
 
 Single Page Application with ACL Restful Application. Client side implemented with angluarjs, server side with expressjs, mongodb, redis.
 
