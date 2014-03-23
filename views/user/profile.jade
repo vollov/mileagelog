@@ -1,9 +1,0 @@
-extends ../layout
-
-block content
-	h1 #{title}
-	p #{user.firstname} #{user.lastname} #{user.age} #{user.email} #{user.password}
-	
-	form(action="/user/" + encodeURIComponent(user._id), method="POST")
-		input(name="_method", type="hidden", value="DELETE")
-		input(type="submit", value="Delete")
