@@ -1,6 +1,6 @@
 'use strict';
 
-var api_host_url = 'http://mileagelog.ca:5002';
+var api_host_url = 'http://mileagelog.ca';
 
 angular.module('appServices', ['ngResource', 'ngCookies'])
 	.factory('SessionService', function(){
