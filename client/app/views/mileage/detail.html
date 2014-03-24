@@ -1,19 +1,44 @@
-<h2>Mileage </h2>
-<form ng-submit="saveMileage()" >
-	<div>
-		<label>start</label><input ng-model='mileage.start'>
-	</div>
-	<div>
-		<label>end</label><input ng-model='mileage.end'>
-	</div>
-	<div>
-		<label>date</label> <input ng-model="mileage.date">
-	</div>
-	<div>
-		<label>type</label> <input ng-model="mileage.type">
-	</div>
-	<div>
-		<label>note</label> <input ng-model="mileage.note">
-	</div>
-	<input type="submit" value="Submit">
-</form>
+<div class="well bs-component">
+	<form class="form-horizontal" name="mileageForm">
+		<fieldset>
+			<legend>New Mileage</legend>
+			<div class="form-group">
+				<label for="inputStart" class="col-lg-2 control-label">Start Mileage</label>
+				<div class="col-lg-10">
+					<input type="number" class="form-control" id="inputStart"
+						placeholder="Start mileage" ng-model="mileage.start" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputEnd" class="col-lg-2 control-label">End Mileage</label>
+				<div class="col-lg-10">
+					<input type="number" class="form-control" id="inputEnd"
+						placeholder="End Mileage" ng-model="mileage.end" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputDate" class="col-lg-2 control-label">Date</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" ng-model="mileage.date" is-open="opened" max="'2015-06-22'" ng-required="true" close-text="Close" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputNote" class="col-lg-2 control-label">Note</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="inputNote"
+						placeholder="Note" ng-model="mileage.note" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-lg-10 col-lg-offset-2">
+					<button class="btn btn-default">Cancel</button>
+					<button type="submit" ng-click='saveMileage()' ng-disabled='!mileageForm.$valid' class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>

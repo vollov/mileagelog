@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('appControllers', [])
+angular.module('appControllers', ['ui.bootstrap'])
 	.controller('RegistrationCtrl', function($scope, $location){
 		$scope.register = function(){
 //			User.save($scope.user, function() {
@@ -57,15 +57,15 @@ angular.module('appControllers', [])
 			$location.path('/mileage/new/123');
 		};
 //		
-//		$scope.saveMileage = function(){
-//			console.log('saving mileage with vid=' + vid);
-//			console.log('saving mileage=%j',$scope.mileage);
+		$scope.saveMileage = function(){
+			console.log('saving mileage with vid=');
+			console.log('saving mileage=%j',$scope.mileage);
 //			$location.path('/mileage/' + vid);
-////			Mileage.save(tokenid, vid, $scope.mileage, function(data, status, headers, config) {
-////				$scope.mileages.push(data);
-////				//$location.path('/mileage/' + vid);
-////			});
-//		};
+//			Mileage.save(tokenid, vid, $scope.mileage, function(data, status, headers, config) {
+//				$scope.mileages.push(data);
+//				//$location.path('/mileage/' + vid);
+//			});
+		};
 	})
 	.controller("NavCtrl", function($scope, $location) {
 

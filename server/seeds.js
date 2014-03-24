@@ -13,21 +13,18 @@ function seeding(){
 				'start': 1035002,
 				'end': 1035042,
 				'date': new Date('2014/3/1'),
-				'type': 'private',
 				'note': 'home to walmart'
 			},{
 				'vid': vid,
 				'start':1035042,
 				'end': 1035093,
 				'date': new Date('2014/3/2'),
-				'type': 'business',
 				'note': 'home to toronto live'
 			},{
 				'vid': vid,
 				'start': 1035093,
 				'end': 1035112,
 				'date': new Date('2014/3/3'),
-				'type': 'private',
 				'note': 'custom'
 			}];
 

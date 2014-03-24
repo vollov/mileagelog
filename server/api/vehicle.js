@@ -60,9 +60,10 @@ module.exports = function(app){
 	app.post('/api/mileages/:vid', function(req, res) {
 		var mileage = req.body;
 		mileage.vid = req.params.vid;
-		
+		mileage.date = new Date(mileage.date);
 		//console.log('[server] http.post(mileage)');
-		//res.render('mileage/new', {title: "Mileages"});
+		//return res.send(200, mileage);
+		
 		db.save('mileage', mileage, function(err, insertedDoc){
 			if(!err) {
 				return res.send(200, mileage);
@@ -79,7 +80,7 @@ module.exports = function(app){
 	app.get('/api/mileages/:vid', function(req, res) {
 		//console.log('[server] http.get(mileage)');
 		var vid = req.params.vid;
-		var sort = [['date', 1]];
+		var sort = [['date', -1]];
 		db.find('mileage',{query:{'vid':vid}, sort:sort,limit:20}, function(err, mileages) {
 			if (!err) {
 				//console.log('mileages=>%j', mileages);
@@ -87,6 +88,21 @@ module.exports = function(app){
 			} else {
 				console.log(err);
 				return res.send(500, {message:'DB Error when list vehicle mileages'});
+			}
+		});
+	});
+	
+	/**
+	 * Spec b4.5 delete mileage by id
+	 */
+	app.delete('/api/mileages/:mid', function(req, res){
+		var mid = req.params.mid;
+		db.remove('mileage', {'_id': mongojs.ObjectId(mid)}, true, function(err, message){
+			if (!err) {
+				res.json(true);
+			} else {
+				console.log(err);
+				res.json(false);
 			}
 		});
 	});

@@ -15,17 +15,21 @@
 			<thead>
 				<tr>
 					<th>date</th>
+					<th>start</th>
+					<th>end</th>
 					<th>mileage</th>
-					<th>type</th>
 					<th>note</th>
+					<th>delete</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-class-even="'even'" ng-repeat="mileage in mileages">
-					<td>{{mileage.date | date:'MM/dd/yyyy'}}</td>
+					<td>{{mileage.date | date:'yyyy/MM/dd'}}</td>
+					<td>{{mileage.start}}</a></td>
+					<td>{{mileage.end}}</a></td>
 					<td>{{mileage.end - mileage.start}}</a></td>
-					<td>{{mileage.type}}</td>
 					<td>{{mileage.note}}</td>
+					<td><a class='btn btn-primary' ng-click='removeMileage(mileage, $index)' ng-class='{disabled: index < 0}'>Delete</a></td>
 				</tr>
 			</tbody>
 		</table>

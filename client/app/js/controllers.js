@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('appControllers', [ 'appServices' ])
+angular.module('appControllers', [ 'appServices', 'ui.bootstrap' ])
 	.controller('RegistrationCtrl', function($scope, $location, User){
 		$scope.register = function(){
 			User.save($scope.user, function() {
@@ -53,14 +53,14 @@ angular.module('appControllers', [ 'appServices' ])
 
 		$scope.deleteVehicle = function (vehicle, index) {
 			//console.log('delete vehicle vid='+ vehicle._id);
-			var confirm = confirm('Delete vehicle ' + vehicle.name + ' will remove it mileages, please confirm to proceed!');
-			if (confirm) {
-				Vehicle.remove(tokenid, vehicle._id, function(data, status, headers, config) {
-					//console.log('Vehicle remove returned, delete index='+ index);
-					$scope.vehicles.splice(index, 1);
-					//$scope.vehicles = data;
-				});
-			}
+//			var confirm = confirm('Delete vehicle ' + vehicle.name + ' will remove it mileages, please confirm to proceed!');
+//			if (confirm) {
+			Vehicle.remove(tokenid, vehicle._id, function(data, status, headers, config) {
+				//console.log('Vehicle remove returned, delete index='+ index);
+				$scope.vehicles.splice(index, 1);
+				//$scope.vehicles = data;
+			});
+//			}
 		}
 	})
 	.controller('MileageCtrl', function($scope, $location, $routeParams, SessionService, Mileage){
@@ -77,13 +77,24 @@ angular.module('appControllers', [ 'appServices' ])
 		};
 		
 		$scope.saveMileage = function(){
+			//var mileage = $scope.mileage;
+			//mileage.date = new Date($scope.mileage.date);
 			console.log('saving mileage with vid=' + vid);
-			console.log('saving mileage=%j',$scope.mileage);
-			$location.path('/mileage/' + vid);
-//			Mileage.save(tokenid, vid, $scope.mileage, function(data, status, headers, config) {
-//				$scope.mileages.push(data);
-//				//$location.path('/mileage/' + vid);
-//			});
+			console.log('saving mileage=%j', $scope.mileage);
+			
+			Mileage.save(tokenid, vid, $scope.mileage, function(data, status, headers, config) {
+				//$scope.mileages.push(data);
+				console.log('saving mileage return data=%j', data);
+				$location.path('/mileage/' + vid);
+			});
+		};
+		$scope.removeMileage = function(mileage, index){
+			
+			Mileage.remove(tokenid, mileage._id, function(data, status, headers, config) {
+				//console.log('Vehicle remove returned, delete index='+ index);
+				$scope.mileages.splice(index, 1);
+				//$scope.vehicles = data;
+			});
 		};
 	})
 	.controller("NavCtrl", function($scope, $location, AuthenticationService, SessionService) {

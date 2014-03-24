@@ -77,14 +77,15 @@ angular.module('appServices', ['ngResource', 'ngCookies'])
 						{params: {'tid': tokenid}}).success(successCallBack);
 			},
 			save : function(tokenid, vid, mileage, successCallBack){
-				return $http.post(api_host_url + '/api/mileages/', 
+				return $http.post(api_host_url + '/api/mileages/' + vid, 
 						mileage, {params: {'tid': tokenid}}).success(successCallBack);
 			},
 			update : function(tokenid, successCallBack){
 				return null;
 			},
-			remove : function(tokenid, successCallBack){
-				return null;
+			remove : function(tokenid, mid, successCallBack){
+				return $http.delete(api_host_url + '/api/mileages/' + mid, {params: {'tid': tokenid}})
+				.success(successCallBack);
 			}
 		}
 	})
