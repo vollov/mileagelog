@@ -5,7 +5,15 @@ $mongo localhost:27017/mileage schema.js
 $redis-cli
 >hmset f2cb3e8d653f46008272113c6c72422843901ef3 username wendy@abc.com role 2
 
-[3] install redis
+[3] run test 
+env KEY=YOUR_KEY mocha test/*.js
+in code
+var key = process.env.KEY;
+
+To run remote test;
+env mode='remote' mocha --ui bdd -R spec test/**/*.test.js
+
+[4] install redis
 apt-get update
 apt-get upgrade
 

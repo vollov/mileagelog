@@ -37,7 +37,7 @@ angular.module('appServices', ['ngResource', 'ngCookies'])
 					.success(successCallBack);
 			},
 			save : function(user, successCallBack){
-				return $http.post(api_host_url + '/public/users',{data: user})
+				return $http.post(api_host_url + '/public/users',user)
 				.success(successCallBack);
 			},
 			update : function(tokenid, successCallBack){

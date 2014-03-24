@@ -6,7 +6,15 @@ var request = require('supertest')
 	, redisService = require('../../lib/redis')
 	, app = require('../../mileage.server.5002').app;
 
-var url = 'http://localhost:5002'
+// by default, test app.
+var url = app;
+var mode = process.env.mode;
+if(mode == 'remote') {
+	url = 'http://api.mileagelog.ca';
+}
+
+
+//var url = 'http://localhost:5002'
 
 describe('Test auth service\n', function() {
 	
