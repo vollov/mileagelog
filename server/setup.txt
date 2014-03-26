@@ -1,3 +1,7 @@
+////////////////////////////////////////
+///
+//////////////////////////////////////////
+
 [1] To import seed data into mongodb:
 $mongo localhost:27017/mileage schema.js
 
@@ -20,6 +24,8 @@ apt-get upgrade
 apt-get install redis-server
 cp /etc/redis/redis.conf /etc/redis/redis.conf.default
 
+
+///////////////////////////////////////////////////////
 redis.conf
 
 daemonize yes

@@ -13,5 +13,22 @@ The application implement a multiple user application to record mileages for bus
 
 ** User can define custom routes to add mileage quickly.
 
+##Maintainance
+###Databese Backup
 
+backup table
+export
+mongoexport --db sfm --collection events --out sfm_events.json
+import
+mongoimport -d sfm_test -c events --file sfm_events.json
 
+backup database
+mongodump -d <our database name> -o <directory_backup>
+mongorestore <our database name>
+
+mongodump --db mileage
+mongorestore -d mileage_test ./dump/mileage
+
+##TODO:
+* add https implementation
+* revise test cases for server
