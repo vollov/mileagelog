@@ -29,6 +29,11 @@ mongorestore <our database name>
 mongodump --db mileage
 mongorestore -d mileage_test ./dump/mileage
 
-##TODO:
+##TODO: (please email vollov.ca[a]gmail.com if you are interested)
+* improve the test cases to test remote server
+* add modules to print pdf report
+* add settings for report
+* add a opengap mobile shell
+* paypale integration
 * add https implementation
-* revise test cases for server
+
