@@ -3,21 +3,15 @@
 var request = require('supertest')
 	, should = require('should')
 	, db = require('../../lib/db')
-	, redisService = require('../../lib/redis')
-	, app = require('../../mileage.server.5002').app;
+	, redisService = require('../../lib/redis');
 
-// by default, test app.
-var url = app;
-var mode = process.env.mode;
-if(mode == 'remote') {
-	url = 'http://api.mileagelog.ca';
-}
-
-
-//var url = 'http://localhost:5002'
+/////// use app to do a in memory test
+//	, app = require('../../mileage.server.5002').app;
+//	request(url)
 
 describe('Test auth service\n', function() {
 	
+	var url = process.env.url;
 	var url_login = '/public/login';
 	
 	describe('Test login api: POST->' + url_login, function() {
@@ -27,7 +21,7 @@ describe('Test auth service\n', function() {
 				username: 'mary@demo.org',
 				password: 'passwd'
 			}
-			request(app)
+			request(url)
 			.post(url_login)
 			.send(credentials)
 			.expect('Content-Type', /json/)
@@ -60,7 +54,7 @@ describe('Test auth service\n', function() {
 				username: 'mary.li@demo.org',
 				password: 'passwd'
 			}
-			request(app)
+			request(url)
 			.post(url_login)
 			.send(credentials)
 			.expect('Content-Type', /json/)
@@ -79,7 +73,7 @@ describe('Test auth service\n', function() {
 				username: 'mary@demo.org',
 				password: 'wrongpasswd'
 			}
-			request(app)
+			request(url)
 			.post(url_login)
 			.send(credentials)
 			.expect('Content-Type', /json/)

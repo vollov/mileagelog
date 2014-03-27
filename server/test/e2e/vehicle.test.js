@@ -4,13 +4,10 @@ var request = require('supertest')
 	, should = require('should')
 	, mongojs = require('mongojs')
 	, db = require('../../lib/db')
-	, redisService = require('../../lib/redis')
-	, app = require('../../mileage.server.5002').app;
-	
-var url = 'http://localhost:5002'
+	, redisService = require('../../lib/redis');
 	
 describe('Test vehicle api\n', function() {
-	
+	var url = process.env.url;
 	var api_url = '/api/vehicles';
 	var mileage_api_url = '/api/mileages'
 	var login_url = '/public/login';
@@ -23,7 +20,7 @@ describe('Test vehicle api\n', function() {
 				username: 'mary@demo.org',
 				password: 'passwd'
 			}
-		request(app)
+		request(url)
 		.post(login_url)
 		.send(credentials)
 		.expect('Content-Type', /json/)
@@ -39,7 +36,7 @@ describe('Test vehicle api\n', function() {
 	});
 	
 	after(function(done){
-		request(app)
+		request(url)
 		.get(logout_url + '?tid=' + token_id)
 		.expect('Content-Type', /json/)
 		.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
@@ -65,7 +62,7 @@ describe('Test vehicle api\n', function() {
 				'name' : 'mini copper'
 			}
 			
-			request(app)
+			request(url)
 			.post(api_url + '?tid=' + token_id)
 			.send(vehicle)
 			.expect('Content-Type', /json/)
@@ -87,7 +84,7 @@ describe('Test vehicle api\n', function() {
 	
 	describe('Test show vehicles: http.get(' + api_url + ')', function() {
 		it('should return 2 vehicles for url ', function(done) {
-			request(app)
+			request(url)
 			.get(api_url + '?tid=' + token_id)
 			.expect('Content-Type', /json/)
 			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
@@ -139,7 +136,7 @@ describe('Test vehicle api\n', function() {
 			};
 		
 		it('should be able to add vehicle mileages', function(done) {
-			request(app)
+			request(url)
 			.post(mileage_api_url + '/'+ vid + '?tid=' + token_id)
 			.send(mileage)
 			.expect('Content-Type', /json/)
@@ -206,7 +203,7 @@ describe('Test vehicle api\n', function() {
 		});
 		
 		it('should be able to list mileage by vehicle id', function(done) {
-			request(app)
+			request(url)
 			.get(mileage_api_url + '/'+ vid +'?tid=' + token_id)
 			.expect('Content-Type', /json/)
 			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')

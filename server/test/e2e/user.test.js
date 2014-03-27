@@ -4,19 +4,18 @@ var request = require('supertest')
 	, should = require('should')
 	, mongojs = require('mongojs')
 	, db = require('../../lib/db')
-	, redisService = require('../../lib/redis')
-	, app = require('../../mileage.server.5002').app;
+	, redisService = require('../../lib/redis');
+	//, app = require('../../mileage.server.5002').app;
 	
-var url = 'http://localhost:5002'
 	
 describe('Test users api\n', function() {
-
+	var url = process.env.url;
 	var url_user_api = '/api/users';
 	var url_login = '/public/login';
 	
 	describe('Test query users without token: GET->' + url_user_api, function() {
 		it('should return 401 without token ', function(done) {
-			request(app)
+			request(url)
 			.get(url_user_api)
 			.expect('Content-Type', /json/)
 			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
@@ -33,7 +32,7 @@ describe('Test users api\n', function() {
 	
 	describe('Test query users with fake token: GET->' + url_user_api, function() {
 		it('should return 401 with fake token ', function(done) {
-			request(app)
+			request(url)
 			.get(url_user_api + '?tid=invalidid')
 			.set('SessionToken', 'aabbcc')
 			.expect('Content-Type', /json/)
@@ -56,7 +55,7 @@ describe('Test users api\n', function() {
 				username: 'mary@demo.org',
 				password: 'passwd'
 			}
-			request(app)
+			request(url)
 			.post(url_login)
 			.send(credentials)
 			.expect('Content-Type', /json/)
@@ -73,7 +72,7 @@ describe('Test users api\n', function() {
 		
 		console.log('in client tokenid=' + token_id);
 		it('should return 4 users for url ', function(done) {
-			request(app)
+			request(url)
 			.get(url_user_api + '?tid=' + token_id)
 			.expect('Content-Type', /json/)
 			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
@@ -115,7 +114,7 @@ describe('Test users api\n', function() {
 		 * User should only be able to query it self
 		 */
 		it('should be able to query user by id ', function(done) {
-			request(app)
+			request(url)
 			.get(url_user_api + '/52e9ce56977f8a8b113a09f9?tid=' + token_id)
 			.expect('Content-Type', /json/)
 			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
@@ -152,7 +151,7 @@ describe('Test users api\n', function() {
 				'password': 'passwd'
 			}
 			
-			request(app)
+			request(url)
 			.post(url_add_user_api)
 			.send(user)
 			.expect('Content-Type', /json/)

@@ -1,6 +1,10 @@
 var mongojs = require('mongojs')
-	, _und = require('underscore')
-	, db = mongojs('localhost/mileage');
+	, _und = require('underscore');
+
+var Config = require('./config'),
+config = new Config();
+
+var db = mongojs('localhost/' + config.db_name);
 
 module.exports = {
 	
