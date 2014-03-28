@@ -2,7 +2,7 @@
 
 var assert = require('assert')
   , should = require('should')
-  , redisService = require('../../lib/redis');
+  , redisService = require('./redis');
 
 describe('Test redis session service:\n', function() {
 	var uuid = '110ec58a-a0f2-4ac4-8393-c866d813b8d1';

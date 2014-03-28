@@ -2,7 +2,6 @@
 
 var request = require('supertest')
 	, should = require('should')
-	, db = require('../../lib/db')
 	, redisService = require('../../lib/redis');
 
 /////// use app to do a in memory test

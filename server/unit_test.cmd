@@ -1,0 +1,1 @@
+mocha --ui bdd -R spec test/unit/*.test.js

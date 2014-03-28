@@ -2,7 +2,7 @@
 
 var	assert = require('assert')
 	, should = require('should')
-	, db = require('../../lib/db');
+	, db = require('./db');
 
 describe('Test db library\n', function() {
 	

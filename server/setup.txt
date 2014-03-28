@@ -4,14 +4,13 @@
 [1] Import test data into mongodb:
 $mongo localhost:27017/mileage_test schema.js
 
-[2] Import test data into redis server
-$redis-cli
->hmset f2cb3e8d653f46008272113c6c72422843901ef3 username wendy@abc.com role 2
-
-[3] start server in test mode
+[2] start server in test mode
 node mileage.server.5002.js -m test
 
-[4] set the target domain and test db_name in package.json and run npm test
+[3] run test 
+npm test
+
+[xx] set the target domain and test db_name in package.json and run npm test
 "test": "env url=http://localhost:5002 db_name=mileage_test mocha --ui bdd -R spec test/**/*.test.js"
 npm test
 

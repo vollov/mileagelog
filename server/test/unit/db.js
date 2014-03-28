@@ -1,7 +1,7 @@
 var mongojs = require('mongojs')
 	, _und = require('underscore');
 
-var db = mongojs('localhost/' + global.db_name);
+var db = mongojs('localhost/mileage_test');
 
 module.exports = {
 	

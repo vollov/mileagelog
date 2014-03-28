@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"start": "supervisor mileage.server.5002.js",
-		"test": "env url=http://localhost:5002 NODE_ENV=test mocha --ui bdd -R spec test/**/*.test.js"
+		"test": "env url=http://localhost:5002 mocha --ui bdd -R spec test/e2e/auth.test.js"
 	},
 	"dependencies": {
 		"express": "3.0.0",
