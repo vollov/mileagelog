@@ -63,6 +63,13 @@ angular.module('appControllers', [ 'appServices', 'ui.bootstrap' ])
 //			}
 		}
 	})
+	.controller('MileageEditCtrl', function($scope, $location, $routeParams, SessionService, Mileage){
+		var tokenid = SessionService.get('tid');
+		var vid = $routeParams.vid;
+		var mid = $routeParams.mid;
+		
+		
+	})
 	.controller('MileageCtrl', function($scope, $location, $routeParams, SessionService, Mileage){
 		var tokenid = SessionService.get('tid');
 		var vid = $routeParams.vid;

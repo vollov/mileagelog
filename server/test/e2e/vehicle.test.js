@@ -2,13 +2,19 @@
 
 var request = require('supertest')
 	, should = require('should')
-	, mongojs = require('mongojs')
-	, db = require('../../lib/db')
-	, redisService = require('../../lib/redis');
+	, nconf = require('nconf')
+	, mongojs = require('mongojs');
 	
+/**
+ * Test should not directly call db or redis lib
+ */
 describe('Test vehicle api\n', function() {
-	var url = process.env.url;
-	var api_url = '/api/vehicles';
+	nconf.argv().env();
+	// Then load configuration from a designated file.
+	nconf.file({ file: 'config.json' });
+	var url = nconf.get('url');
+	
+	var vehicle_api_url = '/api/vehicles';
 	var mileage_api_url = '/api/mileages'
 	var login_url = '/public/login';
 	var logout_url = '/api/logout';
@@ -43,7 +49,7 @@ describe('Test vehicle api\n', function() {
 		.expect(200)
 		.end(function(err,res){
 			should.not.exist(err);
-			//console.log('return from login %j', res.body);
+			//console.log('return from logout %j', res.body);
 			done();
 		});
 	});
@@ -53,8 +59,9 @@ describe('Test vehicle api\n', function() {
 	 * 1) logged in
 	 * 2) get user id via token id
 	 */
-	describe('Test add vehicle: http.post(' + api_url + ')', function() {
+	describe('Test add vehicle: http.post(' + vehicle_api_url + ')', function() {
 
+		var vid;
 		// console.log('in client tokenid=' + token_id);
 		it('should be able to add vehicle ', function(done) {
 			
@@ -63,7 +70,7 @@ describe('Test vehicle api\n', function() {
 			}
 			
 			request(url)
-			.post(api_url + '?tid=' + token_id)
+			.post(vehicle_api_url + '?tid=' + token_id)
 			.send(vehicle)
 			.expect('Content-Type', /json/)
 			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
@@ -72,20 +79,36 @@ describe('Test vehicle api\n', function() {
 				should.not.exist(err);
 				//console.log('return from save vehicle= %j', res.body);
 				res.body.should.have.property('email', 'mary@demo.org');
+				vid = res.body['_id'];
+				//console.log('in client it vid=' + vid);
 				if (err) return done(err);
-				db.remove('vehicle', {'name': "mini copper"}, true, function(err, numberOfRemovedDocs) {
-					should.not.exist(err);
-					// console.log('delete %j user', numberOfRemovedDocs);
-					done();
-				});
+				done();
+			});
+		});
+		
+		//TODO: only admin/self should be able to remove vehicle inserted
+		it('should be able to delete inserted vehicle', function(done) {
+			//console.log('in client vid=' + vid);
+			request(url)
+			.del(vehicle_api_url + '/' + vid + '?tid='+ token_id)
+			.expect('Content-Type', /json/)
+			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
+			.expect(200)
+			.end(function(err,res){
+				should.not.exist(err);
+				//console.log(res.body);
+				res.body.should.be.true;
+				//res.body.should.have.lengthOf(3);
+				if (err) return done(err);
+				done();
 			});
 		});
 	});
 	
-	describe('Test show vehicles: http.get(' + api_url + ')', function() {
+	describe('Test show vehicles: http.get(' + vehicle_api_url + ')', function() {
 		it('should return 2 vehicles for url ', function(done) {
 			request(url)
-			.get(api_url + '?tid=' + token_id)
+			.get(vehicle_api_url + '?tid=' + token_id)
 			.expect('Content-Type', /json/)
 			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
 			.expect(200)
@@ -99,29 +122,21 @@ describe('Test vehicle api\n', function() {
 		});
 	});
 	
-	describe('Test add vehicle mileages', function() {
-		var vid = null;
-		// 
-		before(function(done) {
-			
-			db.findOne('vehicle', {'email': 'mary@demo.org'}, {'_id': 1}, function(err, vehicle){
-				if (!err) {
-					vid = vehicle._id.toString();
-					//console.log('before add mileage with vid=' + vid);
-					
-					done();
-				} else {
-					console.log(err);
-					return done(err);
-				}
-			});
-		});	
-		
-		after(function(done){
-			//console.log('after add mileage with vid=' + vid);
-			db.remove('mileage', {'vid': vid }, false, function(err, numberOfRemovedDocs) {
+	describe('Test add, list and delete vehicle mileages', function() {
+		var vid, mid;
+		// get the vehicle id
+		it('should return 2 vehicles for url ', function(done) {
+			request(url)
+			.get(vehicle_api_url + '?tid=' + token_id)
+			.expect('Content-Type', /json/)
+			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
+			.expect(200)
+			.end(function(err,res){
 				should.not.exist(err);
-				//console.log('delete %j mileage', numberOfRemovedDocs);
+				res.body.should.have.lengthOf(2);
+				res.body[0].should.have.property('name', 'Corolla');
+				vid = res.body[0]._id;
+				if (err) return done(err);
 				done();
 			});
 		});
@@ -129,7 +144,7 @@ describe('Test vehicle api\n', function() {
 		var mileage = {
 				//'vid': vid,
 				'start': 1035093,
-				'end': 1035112,
+				//'end': 1035112,
 				'date': new Date('2014/3/3'),
 				'type': 'private',
 				'note': 'custom'
@@ -146,58 +161,8 @@ describe('Test vehicle api\n', function() {
 				should.not.exist(err);
 				//console.log('return from save mileages= %j', res.body);
 				res.body.should.have.property('end', 1035112);
+				mid = res.body['_id'];
 				if (err) return done(err);
-				done();
-			});
-		});
-		
-	});
-	
-	describe('Test list vehicle mileage: http.get(' + mileage_api_url + '/:vid)', function() {
-		// console.log('in client tokenid=' + token_id);
-		var vid = null;
-		// 
-		beforeEach(function(done) {
-			
-
-			db.findOne('vehicle', {'email': 'mary@demo.org'}, {'_id': 1}, function(err, vehicle){
-				if (!err) {
-					vid = vehicle._id.toString();
-					//console.log('getting vehicle id=' + vid);
-					var mileages = [{
-						'vid': vid,
-						'start': 1035002,
-						'end': 1035042,
-						'date': new Date('2014/3/1'),
-						'type': 'private',
-						'note': 'home to walmart'
-					},{
-						'vid': vid,
-						'start':1035042,
-						'end': 1035093,
-						'date': new Date('2014/3/2'),
-						'type': 'business',
-						'note': 'home to toronto live'
-					}];
-					
-					
-					db.insert('mileage', mileages, function(err, insertedDocs){
-						if (err) return done(err);
-						//console.log('before list mileage with vid=' + vid);
-						done();
-					});
-				} else {
-					console.log(err);
-					return done(err);
-				}
-			});
-		});	
-		
-		afterEach(function(done){
-			//console.log('after list mileage with vid=' + vid);
-			db.remove('mileage', {'vid': vid}, false, function(err, numberOfRemovedDocs) {
-				should.not.exist(err);
-				// console.log('delete %j user', numberOfRemovedDocs);
 				done();
 			});
 		});
@@ -212,10 +177,47 @@ describe('Test vehicle api\n', function() {
 				should.not.exist(err);
 				//console.log('return from save vehicle= %j', res.body);
 				//res.body.should.have.property('email', 'mary@demo.org');
-				res.body.should.have.lengthOf(2);
+				res.body.should.have.lengthOf(1);
+				if (err) return done(err);
+				done();
+			});
+		});
+		
+		//TODO: should be able to update mileage
+//		it('should be able to update vehicle mileages', function(done) {
+//			request(url)
+//			.post(mileage_api_url + '/'+ vid + '?tid=' + token_id)
+//			.send(mileage)
+//			.expect('Content-Type', /json/)
+//			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
+//			.expect(200)
+//			.end(function(err,res){
+//				should.not.exist(err);
+//				//console.log('return from save mileages= %j', res.body);
+//				res.body.should.have.property('end', 1035112);
+//				mid = res.body['_id'];
+//				if (err) return done(err);
+//				done();
+//			});
+//		});
+		
+		//TODO: only admin/self should be able to delete mileage
+		it('should be able to delete mileage ' + mileage_api_url, function(done) {
+			
+			request(url)
+			.del(mileage_api_url + '/' + mid + '?tid='+ token_id)
+			.expect('Content-Type', /json/)
+			.expect('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With')
+			.expect(200)
+			.end(function(err,res){
+				should.not.exist(err);
+				//console.log(res.body);
+				res.body.should.be.true;
+				//res.body.should.have.lengthOf(3);
 				if (err) return done(err);
 				done();
 			});
 		});
 	});
+
 });

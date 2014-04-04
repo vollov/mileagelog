@@ -1,9 +1,15 @@
 var midware = require('../lib/midware.js')
 	, redisService = require('../lib/redis')
-	, db = require('../lib/db.js')
-	, mongojs = require('mongojs');
+	, DB = require('../lib/db')
+	, mongojs = require('mongojs')
+	, _und = require('underscore');
 
 module.exports = function(app){
+	var db = new DB(app);
+	var logger = app.logger;
+	
+	logger.info('loading module vehicle');
+	
 	/**
 	 * Spec 4.1 HTTP DELETE for vehicle
 	 */
@@ -105,5 +111,17 @@ module.exports = function(app){
 				res.json(false);
 			}
 		});
+	});
+	
+	/**
+	 * Spec b4.6 edit a mileage with PUT
+	 */
+	app.put('/api/mileages/:mid', function(req, res){
+		var mid = req.params.mid;
+		//_und.extend(dest, source);
+//		_und.extend(dest, source);
+//		db.update('user',  {'_id': mongojs.ObjectId(mid)}, {$set: req.body},
+//			{upsert: false, multi:false}, function(){res.send(200,req.body);
+//		});
 	});
 };

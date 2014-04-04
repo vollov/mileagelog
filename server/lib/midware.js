@@ -58,5 +58,10 @@ module.exports = {
 	 */
 	authorization: function(tokenid, url) {
 		//return {status: status_code, message : 'xxxx'}
+		//if role is not admin
+		
+		//if url == get '/api/users/:id', then id must == uid.
+		//if url == get '/api/mileages/:vid', then vid must belongs to user.email
+		//if delete /api/vehicles/:id, then vid must belongs to user.email
 	}	
 }

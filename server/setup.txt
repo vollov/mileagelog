@@ -26,6 +26,12 @@ app.configure('production', function(){
 
  node my_app.js
 
+
+	
+	var db = new DB(app);
+
+
+
 //////////////////////////////////////////
 /// Production
 //////////////////////////////////////////

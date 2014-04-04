@@ -2,6 +2,7 @@ db.user.drop();
 db.vehicle.drop();
 
 users = [ {
+	"_id": new ObjectId("52e9ce56977f8a8b113a09f9"),
 	'password': '30274c47903bd1bac7633bbf09743149ebab805f',
 	'email': 'mary@demo.org',
 	"firstname" : "Mary",
@@ -12,7 +13,7 @@ users = [ {
 	"firstname" : "Wendy",
 	"lastname" : "Chan"
 }, {
-	"_id": new ObjectId("52e9ce56977f8a8b113a09f9"),
+	"_id": new ObjectId("52e9ce56977f8a8b113a09e8"),
 	'password': '30274c47903bd1bac7633bbf09743149ebab805f',
 	'email': 'dustin@demo.org',
 	"firstname" : "Dustin",

@@ -2,15 +2,16 @@
 
 var request = require('supertest')
 	, should = require('should')
+	, nconf = require('nconf')
 	, redisService = require('../../lib/redis');
-
-/////// use app to do a in memory test
-//	, app = require('../../mileage.server.5002').app;
-//	request(url)
 
 describe('Test auth service\n', function() {
 	
-	var url = process.env.url;
+	nconf.argv().env();
+	// Then load configuration from a designated file.
+	nconf.file({ file: 'config.json' });
+	
+	var url = nconf.get('url');
 	var url_login = '/public/login';
 	
 	describe('Test login api: POST->' + url_login, function() {
@@ -29,19 +30,10 @@ describe('Test auth service\n', function() {
 			.end(function(err,res){
 				should.not.exist(err);
 				
-				//console.log('return from login ' + res.body);
 				var token_id = res.body['tokenid'];
 				token_id.length.should.equal(40);
 				
-				var query = [token_id, 'email'];
-				redisService.hget(query, function(err, reply){
-					should.not.exist(err);
-					reply.should.equal('mary@demo.org');
-				});
-				
-				redisService.remove(token_id, function(err, reply){
-					should.not.exist(err);
-				});
+				res.body.should.have.property('email', 'mary@demo.org');
 				if (err) return done(err);
 				done();
 			});

@@ -20,6 +20,9 @@ angular.module('appModule', [ 'ngRoute', 'appControllers' ])
 		}).when('/mileage/new/:vid', {
 			controller : 'MileageCtrl',
 			templateUrl : 'views/mileage/detail.html'
+		}).when('/mileage/:vid/:mid', {
+			controller : 'MileageEditCtrl',
+			templateUrl : 'views/mileage/detail.html'
 		}).when('/mileage/:vid', {
 			controller : 'MileageCtrl',
 			templateUrl : '/views/mileage/list.html'

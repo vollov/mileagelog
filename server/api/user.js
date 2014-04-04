@@ -1,16 +1,20 @@
-var db = require('../lib/db')
+var DB = require('../lib/db')
 	, midware = require('../lib/midware')
 	, security = require('../lib/security')
 	, mongojs = require('mongojs');
 
 module.exports = function(app) {
+	var db = new DB(app);
+	var logger = app.logger;
+
+	logger.info('loading module user');
 	
 	/**
 	 * Spec b1.1 add a new user with POST, create session.user
 	 */
 	app.post('/public/users', function(req, res){
 		req.body.password = security.hash(req.body.password);
-		//console.log('saving user=%j',req.body);
+		logger.debug('saving user=%j',req.body);
 		//return res.send(200, {message:'user registration success'});
 		db.save('user', req.body, function(err, insertedUser){
 			if(!err) {
