@@ -1,10 +1,14 @@
-var redisService = require('./redis');
+var redisService = require('./redis')
+	, url = require('url');
 
 module.exports = {
 	/**
 	 * Add Access-Control-Allow-Headers in HTTP response
 	 */
 	header : function(req, res, next) {
+		var orgin_host = url.parse('http://' + req.host).host;
+		console.log('HTTP request host = ' + orgin_host);
+		
 		res.header('Access-Control-Allow-Origin', '*');
 		res.header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
 		res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, HEAD, OPTIONS');
